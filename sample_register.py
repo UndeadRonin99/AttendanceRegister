@@ -13,7 +13,7 @@ def create_qr_code(data, filename):
 
 # Generate a QR code containing the URL to invoke the attendance function
 # This could be hosted on a server, which when accessed will call `update_attendance`
-qr_data = f'http://0.0.0.0:5000/record-attendance'
+qr_data = 'https://attendanceregister-c6f3.onrender.com/record-attendance'
 create_qr_code(qr_data, 'gym_attendance_qr.png')
 
 # Initialize Firebase Admin SDK
@@ -51,4 +51,5 @@ def get_qr_code():
         return str(e), 500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
