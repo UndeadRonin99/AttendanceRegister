@@ -28,10 +28,10 @@ def update_attendance():
     # Get current date and time
     now = datetime.now()
     day_of_week = now.strftime("%A")
-    timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
+    timestamp = now.strftime("%H")
 
     # Reference to attendance node in Firebase RTDB
-    attendance_ref = db.reference('attendance')
+    attendance_ref = db.reference('attendance_sample')
     new_attendance = attendance_ref.push({
         'day_of_week': day_of_week,
         'timestamp': timestamp
