@@ -12,6 +12,7 @@ def create_qr_code(data, filename):
     print(f"QR Code saved as {filename}")
 # Generate a QR code containing the URL to invoke the attendance function
 # This could be hosted on a server, which when accessed will call `update_attendance`
+server_ip = '0.0.0.0'
 qr_data = f'http://{server_ip}:5000/record-attendance'
 create_qr_code(qr_data, 'sampleAttendance.png')
 
