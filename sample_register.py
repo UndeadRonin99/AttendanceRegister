@@ -45,5 +45,14 @@ def record_attendance():
     update_attendance()
     return "Attendance recorded successfully", 200
 
+from flask import send_file
+
+@app.route('/get-qr-code', methods=['GET'])
+def get_qr_code():
+    try:
+        return send_file('gym_attendance_qr.png', mimetype='image/png')
+    except Exception as e:
+        return str(e), 500
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
