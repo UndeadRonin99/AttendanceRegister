@@ -1,30 +1,28 @@
 import pyqrcode
 import firebase_admin
-import os
-from firebase_admin import credentials
+from firebase_admin import credentials, db
 from datetime import datetime
-from flask import Flask, request
+from flask import Flask, request, send_file
+import os
 
 def create_qr_code(data, filename):
     # Create and save QR code
     qr = pyqrcode.create(data)
     qr.png(filename, scale=8)
     print(f"QR Code saved as {filename}")
+
 # Generate a QR code containing the URL to invoke the attendance function
 # This could be hosted on a server, which when accessed will call `update_attendance`
-server_ip = '0.0.0.0'
 qr_data = f'http://0.0.0.0:5000/record-attendance'
-create_qr_code(qr_data, 'sampleAttendance.png')
+create_qr_code(qr_data, 'gym_attendance_qr.png')
 
 # Initialize Firebase Admin SDK
 cred = credentials.Certificate('/etc/secrets/serviceAccountKey')
 firebase_admin.initialize_app(cred, {
-    'databaseURL': 'https://alleysway-310a8-default-rtdb.firebaseio.com/'
+    'databaseURL':  'https://alleysway-310a8-default-rtdb.firebaseio.com/'
 })
 
 app = Flask(__name__)
-
-
 
 def update_attendance():
     # Get current date and time
@@ -44,8 +42,6 @@ def update_attendance():
 def record_attendance():
     update_attendance()
     return "Attendance recorded successfully", 200
-
-from flask import send_file
 
 @app.route('/get-qr-code', methods=['GET'])
 def get_qr_code():
