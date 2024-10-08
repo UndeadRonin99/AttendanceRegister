@@ -1,6 +1,7 @@
 import pyqrcode
 import firebase_admin
-from firebase_admin import credentials, db
+import os
+from firebase_admin import credentials
 from datetime import datetime
 from flask import Flask, request
 
@@ -15,7 +16,7 @@ qr_data = 'http://your-server-ip:5000/record-attendance'
 create_qr_code(qr_data, 'sampleAttendance.png')
 
 # Initialize Firebase Admin SDK
-cred = credentials.Certificate('path/to/alleysway-310a8-firebase-adminsdk-n95a3-ac9e5a55d9.json')
+cred = credentials.Certificate(os.environ.get('FIREBASE_CREDENTIALS'))
 firebase_admin.initialize_app(cred, {
     'databaseURL': 'https://alleysway-310a8-default-rtdb.firebaseio.com/'
 })
