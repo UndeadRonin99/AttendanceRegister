@@ -1,7 +1,7 @@
 import pyqrcode
 import firebase_admin
 from firebase_admin import credentials, db
-from datetime import datetime
+from datetime import datetime, timedelta
 from flask import Flask, request, send_file
 import os
 
@@ -26,7 +26,7 @@ app = Flask(__name__)
 
 def update_attendance():
     # Get current date and time
-    now = datetime.now()
+    now = datetime.now() + timedelta(hours=2) 
     day_of_week = now.strftime("%A")
     timestamp = now.strftime("%H")
 
