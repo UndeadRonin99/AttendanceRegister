@@ -16,7 +16,7 @@ qr_data = 'http://your-server-ip:5000/record-attendance'
 create_qr_code(qr_data, 'sampleAttendance.png')
 
 # Initialize Firebase Admin SDK
-cred = credentials.Certificate('serviceAccountKey.json')
+cred = credentials.Certificate('/etc/secrets/serviceAccountKey.json')
 firebase_admin.initialize_app(cred, {
     'databaseURL': 'https://alleysway-310a8-default-rtdb.firebaseio.com/'
 })
