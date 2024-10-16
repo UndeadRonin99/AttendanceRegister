@@ -26,9 +26,9 @@ app = Flask(__name__)
 
 def update_attendance():
     # Get current date and time
-    now = datetime.now()
+    now = datetime.now() + timedelta(hours=2)
     date = now.strftime("%Y-%m-%d")
-    hour = now.strftime("%H")+2
+    hour = now.strftime("%H")
 
     # Reference to attendance node in Firebase RTDB
     attendance_ref = db.reference(f'attendance/{date}')
