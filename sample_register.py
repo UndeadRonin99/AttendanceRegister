@@ -28,7 +28,7 @@ def update_attendance():
     # Get current date and time
     now = datetime.now()
     date = now.strftime("%Y-%m-%d")
-    hour = now.strftime("%H")
+    hour = now.strftime("%H")+2
 
     # Reference to attendance node in Firebase RTDB
     attendance_ref = db.reference(f'attendance/{date}')
