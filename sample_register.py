@@ -26,18 +26,31 @@ app = Flask(__name__)
 
 def update_attendance():
     # Get current date and time
-    now = datetime.now() + timedelta(hours=2) 
-    day_of_week = now.strftime("%A")
-    timestamp = now.strftime("%H")
+    now = datetime.now()
+    date = now.strftime("%Y-%m-%d")
+    hour = now.strftime("%H")
 
     # Reference to attendance node in Firebase RTDB
-    attendance_ref = db.reference('attendance_sample')
-    new_attendance = attendance_ref.push({
-        'day_of_week': day_of_week,
-        'timestamp': timestamp
-    })
-    print(f"Attendance recorded at: {timestamp}")
+    attendance_ref = db.reference(f'attendance/{date}')
 
+    # Update attendance for the specific hour
+    attendance_data = attendance_ref.get()
+
+    if isinstance(attendance_data, list):
+        # If attendance data is a list, update the specific hour
+        if len(attendance_data) > int(hour):
+            attendance_data[int(hour)] += 1
+        else:
+            attendance_data.extend([0] * (int(hour) - len(attendance_data) + 1))
+            attendance_data[int(hour)] = 1
+        attendance_ref.set(attendance_data)
+    elif isinstance(attendance_data, dict) or attendance_data is None:
+        # If attendance data is a dict or None, initialize or update accordingly
+        attendance_ref.update({
+            hour: attendance_data.get(hour, 0) + 1 if attendance_data else 1
+        })
+
+    print(f"Attendance recorded at: {hour}:00")
 @app.route('/record-attendance', methods=['GET'])
 def record_attendance():
     update_attendance()
